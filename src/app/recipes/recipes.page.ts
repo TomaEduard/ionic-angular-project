@@ -20,12 +20,30 @@ export class RecipesPage implements OnInit {
   constructor(private recipesService: RecipesService) { }
 
   ngOnInit() {
-    this.recipes = this.recipesService.getAllRecipes();
+    console.log('ngOnInit');
+    console.log(this.recipes);
   }
 
   onToggleColorTheme(event) {
     console.log(event.detail.checked)
     document.body.setAttribute('color-theme', event.detail.checked ? 'dark' : 'light');
+  }
+
+  ionViewWillEnter() {
+    this.recipes = this.recipesService.getAllRecipes();
+    console.log('ionViewWillEnter');
+  }
+  
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter');
+  }
+  
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave');
+  }
+
+  ionViewDidLeave() {
+    console.log('ionViewDidLeave');
   }
 
 }
