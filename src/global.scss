@@ -24,3 +24,26 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+// --ion-item-sliding: var(--ion-color-primary-contrast, #424242);
+
+.button-native {
+  border-radius:  10px;
+}
+
+.font15 {
+  font-size: 15px;
+}
+
+.font14 {
+  font-size: 14px;
+}
+
+.font13 {
+  font-size: 11px;
+}
+
+// form
+.ion-invalid.ion-touched ion-label {
+  color: var(--ion-color-danger);
+}

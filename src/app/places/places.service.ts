@@ -37,8 +37,6 @@ export class PlacesService {
   }
 
   getPlace(id: string): Place {
-
-    console.log('👓', id)
     return {...this._places.find(e => e.id === id)};
   }
 }
