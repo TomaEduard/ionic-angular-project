@@ -12,7 +12,19 @@
 <ion-content class="ion-padding">
   <ion-grid>
     <ion-row class="ion-align-items-center ion-justify-content-center">
-      <ion-col size-lg="7">
+        <ion-col
+          *ngIf="!loadedBookings || loadedBookings.length <= 0"
+          size-md="6" 
+          offset-md="3"
+          class="ion-text-center"
+        >
+          <p>No Booking found!</p>
+        </ion-col>
+      <ion-col 
+        *ngIf="loadedBookings && loadedBookings.length > 0"
+        size-md="6" 
+        offset-md="3"
+      >
         <ion-item-sliding *ngFor="let booking of loadedBookings" #slidingBooking>
           <ion-item>
             <ion-label>

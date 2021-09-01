@@ -1,5 +1,5 @@
+<!-- [routerLink]="['/', 'places', 'tabs', 'offers', offer.id]" -->
 <ion-item 
-  [routerLink]="['/', 'places', 'tabs', 'offers', offer.id]"
   detail
 >
 
@@ -14,13 +14,13 @@
 
         <ion-col>
   
-          <ion-icon name="calendar" color="medium" class="font14"></ion-icon>
-          <ion-text color="primary" class="space-left font14">{{getDummyDate() | date}}</ion-text>
+          <ion-icon name="calendar" color="medium" class="font12"></ion-icon>
+          <ion-text color="primary" class="space-left font12">{{offer.availableFrom | date}}</ion-text>
   
           <span class="space-left font14">to</span>
   
-          <ion-icon name="calendar" color="medium" class="font14 space-left"></ion-icon>
-          <ion-text color="primary" class="space-left font14">{{getDummyDate() | date}}</ion-text>
+          <ion-icon name="calendar" color="medium" class="font12 space-left"></ion-icon>
+          <ion-text color="primary" class="space-left font12">{{offer.availableTo | date}}</ion-text>
   
         </ion-col>
       </ion-row>
