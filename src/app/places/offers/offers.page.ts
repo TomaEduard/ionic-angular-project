@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { IonItemSliding, NavController } from '@ionic/angular';
 import { PlacesService } from './../places.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -18,12 +19,11 @@ export class OffersPage implements OnInit, OnDestroy{
 
   constructor(
     private placeService: PlacesService,
-    private navController: NavController,
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
-    // this.offers = this.placeService.places;
     this.placesSub = this.placeService.places.subscribe((places: Place[]) => {
       this.offers = places
     });

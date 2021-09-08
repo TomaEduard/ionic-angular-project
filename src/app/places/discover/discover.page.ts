@@ -18,13 +18,11 @@ export class DiscoverPage implements OnInit, OnDestroy {
   isLoading = false;
   private placesSub: Subscription;
 
-
   constructor(
     private placesService: PlacesService,
     private menuController: MenuController,
     private authService: AuthService
   ) { }
-
 
   ngOnInit() {
     this.placesSub = this.placesService.places.subscribe((places: Place[]) => {
@@ -58,8 +56,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
       this.relevantPlaces = this.loadedPlaces;
       this.listedLoadedPlaces = this.relevantPlaces.slice(1);
     } else {
-      console.log('#2', )
-      console.log('#22',  this.authService.userId)
+      console.log('#2',  this.authService.userId)
       this.relevantPlaces = this.loadedPlaces.filter(e => e.userId !== this.authService.userId);
       this.listedLoadedPlaces = this.relevantPlaces.slice(1);
     }

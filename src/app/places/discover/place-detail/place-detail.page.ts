@@ -8,6 +8,8 @@ import { ActionSheetController, ModalController, NavController, LoadingControlle
 import { Place } from '../../place.model';
 import { Subscription } from 'rxjs';
 import { Booking } from 'src/app/bookings/booking.model';
+import { MapModalComponent } from 'src/shared/map-modal/map-modal.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-place-detail',
@@ -20,6 +22,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   isBookable = false;
   isLoading = false;
   private placesSub: Subscription;
+  private routeSub: Subscription;
   
   constructor(
     private router: Router, 
@@ -36,7 +39,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
+    this.routeSub = this.route.paramMap.subscribe((params: ParamMap) => {
       if (!params.has('placeId')) {
         this.navCtrl.navigateBack('/okaces/tabs/discover')
         return;
@@ -45,6 +48,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       this.isLoading = true;
       this.placesSub = this.placesService
         .getPlace(params.get('placeId'))
+
         .subscribe((place: Place) => {
           this.place = place;
           this.isBookable = place.userId !== this.authService.userId;
@@ -67,6 +71,10 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
+  
     if (this.placesSub) {
       this.placesSub.unsubscribe();
     }
@@ -145,4 +153,27 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
 
     });
   }
+
+  onShowFullMap() {
+    this.modalCtrl.create({
+      component: MapModalComponent,
+      componentProps: {
+        center: {
+          lat: this.place.location.lat, 
+          lng: this.place.location.lng
+        },
+        zoom: 15,
+        selectable: false,
+        closeButtonText: 'Close',
+        title: this.place.location.address
+      }
+    }).then(modalEl => {
+      modalEl.onDidDismiss()
+        .then(modalData => {
+          console.log('TEST ASD', )
+        })
+      modalEl.present();
+    })
+  }
+
 }

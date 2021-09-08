@@ -59,7 +59,6 @@ export class BookingService {
       dateFrom,
       dateTo
     )
-    
       
     return this.http
       .post<{name: string}>(
@@ -79,24 +78,32 @@ export class BookingService {
   }
 
   cancelBooking(bookingId: string) {
-    return this.bookings.pipe(
+
+    return this.http.delete(
+      `
+        https://ionic-angular-course-78f48-default-rtdb.europe-west1.firebasedatabase.app/bookings/${bookingId}.json
+      `
+    ).pipe(
+      switchMap(() => {
+        return this.bookings;
+      }),
       take(1),
-      delay(500),
-      tap((bookings: Booking[]) => {
+      tap(bookings => {
         this._bookings.next(bookings.filter(e => e.id !== bookingId))
       })
-    )
+    );
   }
 
-  fetchBookings() {
-    this.http.get<{[key:string]: BookingData}>(
+  fetchBookings(): Observable<Booking[]> {
+
+    return this.http.get<{[key:string]: BookingData}>(
       `
-        https://ionic-angular-course-78f48-default-rtdb.europe-west1.firebasedatabase.app/bookings.json
-        ?orderBy="userId"&equalTo="${this.authService.userId}"
+        https://ionic-angular-course-78f48-default-rtdb.europe-west1.firebasedatabase.app/bookings.json?orderBy="userId"&equalTo="${this.authService.userId}"
       `,
     ).pipe(
-      map(bookingData => {
-        const bookings = [];
+      map((bookingData: {[key:string]: BookingData}) => {
+        const bookings: Booking[] = [];
+
         for (const key in bookingData) {
   
           if (bookingData.hasOwnProperty(key)) {
@@ -114,6 +121,10 @@ export class BookingService {
             ))
           }
         }
+        return bookings;
+      }),
+      tap(bookings => {
+        this._bookings.next(bookings);
       })
     )
   }
