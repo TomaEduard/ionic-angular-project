@@ -157,7 +157,8 @@ export class LocationPickerComponent implements OnInit {
   }
   
   private getMapImage(lat: number, lng: number, zoom: number) {
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=600x300&maptype=roadmap&markers=color:red%7Clabel:Place%7C${lat},${lng}&key=AIzaSyBt6f_ej4Z4WDoUo6n1tRPoxWFPmDoGcuY`
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=600x300&maptype=roadmap&markers=color:red%7Clabel:Place%7C${lat},${lng}&key=${environment.googleMapAPIKey}`
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=600x300&maptype=roadmap&markers=color:red%7Clabel:Place%7C${lat},${lng}&key=${environment.googleMapAPIKey}`
   }
 
 }
