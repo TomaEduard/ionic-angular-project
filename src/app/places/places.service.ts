@@ -1,10 +1,10 @@
-import { PlaceLocation } from './location.model';
-import { AuthService } from './../auth/auth.service';
-import { Injectable } from '@angular/core';
-import { Place } from './place.model';
-import { BehaviorSubject, of, Observable } from 'rxjs';
-import { take, map, tap, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { AuthService } from './../auth/auth.service';
+import { PlaceLocation } from './location.model';
+import { Place } from './place.model';
 
 export interface PlaceData {
   availableFrom: string,
@@ -164,6 +164,11 @@ export class PlacesService {
       'https://ionic-angular-course-78f48-default-rtdb.europe-west1.firebasedatabase.app/offered-places.json',
       {...newPlace, id: null}
     ).pipe(
+      tap(places => {
+        newPlace.id = generatedId;
+        this._places.next(places.concat(newPlace));
+      }),
+
       // *specific firebase, save local the id from name property
       switchMap(resData => {
         console.log('resData', resData)
@@ -171,10 +176,7 @@ export class PlacesService {
         return this.places;
       }),
       take(1),
-      tap(places => {
-        newPlace.id = generatedId;
-        this._places.next(places.concat(newPlace));
-      })
+
     );
 
   }
@@ -186,7 +188,6 @@ export class PlacesService {
     return this.places
       .pipe(
         take(1),
-
         // make sure we have alltime a list of place
         switchMap(places => {
           if (!places || places.length <= 0) {
@@ -204,7 +205,7 @@ export class PlacesService {
           } 
 
           // local copy of Places[]
-          updatedPlaces = [...places]
+          updatedPlaces = [...places];
 
           // copy the old place to have old values of props.
           const oldPlace = updatedPlaces[updatedPlaceIndex];
